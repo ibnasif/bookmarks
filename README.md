@@ -17,3 +17,6 @@ want to view my bookmarks
 
 
 domain model: domain model.jpg
+Connect to psql
+Create the database using the psql command CREATE DATABASE bookmark_manager;
+Connect to the database using the pqsl command 
