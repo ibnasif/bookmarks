@@ -17,6 +17,10 @@ class Bookmarks < Sinatra::Base
   end
 
   get '/bookmarks' do
+    
+    #print ENV variable
+    p ENV
+    
     @bookmarks = Bookmark.all
     erb :bookmarks
     

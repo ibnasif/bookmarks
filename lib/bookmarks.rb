@@ -5,7 +5,15 @@ class Bookmark
   attr_accessor :bookmarks
   def self.all
 
-    connection = PG.connect(dbname: 'bookmark_manager')
+    if ENV['ENVIRONMENT'] == 'test'
+      connection = PG.connect(dbname: 'bm_test')
+
+    else 
+      connection = PG.connect(dbname: 'bookmark_manager')
+
+    end
+
+    
     result = connection.exec("SELECT * FROM bookmarks;")
     result.map do |bookmark| 
       bookmark['url']
