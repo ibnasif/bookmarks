@@ -22,5 +22,10 @@ describe Bookmark do
     expect(bookmarks).to include("http://www.google.com")
 
   end
+
+  it "adds a bookmark" do
+    Bookmark.add("www.youtube.com")
+    expect(Bookmark.all).to include "www.youtube.com"
+  end
   
 end
