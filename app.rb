@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require "sinatra/reloader" 
 require_relative "./lib/bookmarks.rb"
+require 'pg'
 
 
 
@@ -25,6 +26,22 @@ class Bookmarks < Sinatra::Base
     erb :bookmarks
     
   end
+
+  get '/bookmarks/new' do
+    
+    erb :adding_bookmark
+  end
+
+  post '/bookmarks' do
+    url = params['url']
+    connection = PG.connect(dbname: 'bm_test')
+    connection.exec("INSERT INTO bookmarks (url) VALUES('#{url}')")
+    redirect '/bookmarks'
+  end
+
+
+
+
 
 
   run! if app_file == $0
