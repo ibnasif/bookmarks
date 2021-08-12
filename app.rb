@@ -33,7 +33,7 @@ class Bookmarks < Sinatra::Base
   end
 
   post '/bookmarks' do
-    Bookmark.add(params['url'])
+    Bookmark.add(title: params['title'], url: params['url'])
     
     redirect '/bookmarks'
   end

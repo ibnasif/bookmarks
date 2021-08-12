@@ -1,6 +1,8 @@
 require 'bookmarks'
 
 describe Bookmark do
+
+  
   
   it 'returns all bookmarks' do
 
@@ -8,24 +10,46 @@ describe Bookmark do
 
     #add the test data
 
-    connection.exec("INSERT into bookmarks (url) VALUES('http://www.makersacademy.com');")
-    connection.exec("INSERT into bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
-    connection.exec("INSERT into bookmarks (url) VALUES('http://www.google.com');")
+    # Add the test data
+    
+    bookmark = Bookmark.add(url: "http://www.makersacademy.com", title: "Makers Academy")
+    Bookmark.add(url: "http://www.destroyallsoftware.com", title: "Destroy All Software")
+    Bookmark.add(url: "http://www.google.com", title: "Google")
 
-
-      
-
+  
     bookmarks = Bookmark.all
 
-    expect(bookmarks).to include("http://www.makersacademy.com")
-    expect(bookmarks).to include("http://www.destroyallsoftware.com")
-    expect(bookmarks).to include("http://www.google.com")
 
+    expect(bookmarks.length).to eq 3
+    expect(bookmarks.first).to be_a Bookmark
+    expect(bookmarks.first.id).to eq bookmark.id
+    expect(bookmarks.first.title).to eq 'Makers Academy'
+    expect(bookmarks.first.url).to eq 'http://www.makersacademy.com'
   end
+       
 
-  it "adds a bookmark" do
-    Bookmark.add("www.youtube.com")
-    expect(Bookmark.all).to include "www.youtube.com"
-  end
+
+
+
+
   
+  
+  
+
+
+
+  it 'creates a new bookmark' do
+    bookmark = Bookmark.add(url: 'http://www.example.org', title: 'Test Bookmark')
+    persisted_data = PG.connect(dbname: 'bm_test').query("SELECT * FROM bookmarks WHERE id = #{bookmark.id};")
+
+    expect(bookmark).to be_a Bookmark
+    expect(bookmark.id).to eq persisted_data.first['id']
+    expect(bookmark.title).to eq 'Test Bookmark'
+    expect(bookmark.url).to eq 'http://www.example.org'
+  end
 end
+
+
+  
+
+
